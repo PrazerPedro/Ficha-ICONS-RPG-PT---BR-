@@ -17,7 +17,7 @@ Ele utiliza regras leves e rápidas, com ênfase na narrativa e na criação de 
 
 ## 🖥️ Como usar o site
 
-1. Acesse o link: **[Abrir Ficha Icons RPG](https://github.com/PrazerPedro/Ficha-ICONS-RPG-PT---BR-/blob/main/Ficha%20INCON.html)**
+1. Acesse o link: **[Abrir Ficha Icons RPG](https://github.com/PrazerPedro/Ficha-ICONS-RPG-PT---BR-/blob/main/Ficha%20ICONS%20RPG.html)**
 2. Preencha os campos de identidade, atributos, poderes e especializações.
 3. O sistema salva tudo automaticamente no seu navegador (localStorage).
 4. Feche e abra novamente quando quiser: sua ficha continuará lá.
