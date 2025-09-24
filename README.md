@@ -17,7 +17,7 @@ Ele utiliza regras leves e rápidas, com ênfase na narrativa e na criação de 
 
 ## 🖥️ Como usar o site
 
-1. Acesse o link: **[Abrir Ficha Icons RPG](https://SEU-USUARIO.github.io/ficha-icons/)**
+1. Acesse o link: **[Abrir Ficha Icons RPG](https://github.com/PrazerPedro/Ficha-ICONS-RPG-PT---BR-/blob/main/Ficha)**
 2. Preencha os campos de identidade, atributos, poderes e especializações.
 3. O sistema salva tudo automaticamente no seu navegador (localStorage).
 4. Feche e abra novamente quando quiser: sua ficha continuará lá.
@@ -32,7 +32,3 @@ Ele utiliza regras leves e rápidas, com ênfase na narrativa e na criação de 
 * Registro de **poderes, especializações e condições**.
 * **Salvamento automático** no navegador.
 * Interface simples, leve e responsiva.
-
----
-
-Quer que eu prepare também uma **versão curta** (um parágrafo só) para aparecer logo no topo do GitHub, como uma descrição rápida do repositório, e deixar esse texto maior dentro do README?
