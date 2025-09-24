@@ -1,32 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ficha Icons RPG</title>
-
-  <!-- React e ReactDOM -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-
-  <!-- Babel (para usar JSX direto no navegador) -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    .input {
-      display: block;
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    .btn {
-      background: #111827;
-      color: white;
-      padding: 0.3rem 0.75rem;
       border-radius: 6px;
       cursor: pointer;
     }
