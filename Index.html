@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ICONS Assemble - Ficha de Personagem</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    body { background-color: #fff; color: #222; }
+    nav { background: #ff6600; }
+    nav a, nav strong { color: #fff !important; }
+    h2, h3 { color: #ff6600; text-transform: uppercase; }
+    .ficha {
+      border: 3px solid #ff6600;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #fffdf8;
+      box-shadow: 4px 4px 0 #ff6600;
+    }
+    label { font-weight: bold; color: #ff6600; }
+    input, textarea { border: 2px solid #ff6600; }
+    button { background: #ff6600; color: #fff; font-weight: bold; }
+    .repertorio {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .carta {
+      border: 2px solid #ff6600;
+      border-radius: 6px;
+      padding: 0.5rem;
+      text-align: center;
+      background: #fffefc;
+      box-shadow: 3px 3px 0 #ff6600;
+    }
+    .carta img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .carta strong { display: block; margin-top: 0.5rem; color: #ff6600; }
+    .carta button { margin: 0.25rem; width: 45%; font-size: 0.8rem; }
+    .avatar-preview {
+      display: block;
+      max-width: 200px;
+      max-height: 200px;
+      margin: 0 auto 1rem auto;
+      border: 3px solid #ff6600;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    #resultadoRolagem {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 0.5rem;
+      color: #ff6600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="container-fluid">
+    <ul><li><strong>ICONS Assemble</strong></li></ul>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="container">
+    <div class="grid">
+      <section class="ficha">
+        <hgroup><h2>Ficha de Personagem</h2><h3>Criação por Pontos</h3></hgroup>
+
+        <h3>Avatar do Herói</h3>
+        <img id="avatarPreview" class="avatar-preview" src="https://via.placeholder.com/200x200?text=Avatar" alt="Avatar do Herói">
+        <input type="file" id="avatar" accept="image/*" onchange="mostrarPreview(event)">
+
+        <h3>Informações Básicas</h3>
+        <label for="nome">Nome do Herói</label>
+        <input type="text" id="nome">
+        <label for="jogador">Jogador</label>
+        <input type="text" id="jogador">
+
+        <h3>Origem</h3>
+        <input type="text" id="origem">
+        <h3>Energia</h3>
+        <input type="number" id="energia">
+        <h3>Determinação</h3>
+        <input type="number" id="determinacao">
+
+        <h3>Atributos</h3>
+        <label>Proeza</label><input type="number" id="proeza" min="1" max="10">
+        <label>Coordenação</label><input type="number" id="coordenacao" min="1" max="10">
+        <label>Intelecto</label><input type="number" id="intelecto" min="1" max="10">
+        <label>Vigor</label><input type="number" id="vigor" min="1" max="10">
+        <label>Atenção</label><input type="number" id="atencao" min="1" max="10">
+        <label>Vontade</label><input type="number" id="vontade" min="1" max="10">
+
+        <h3>Condições</h3>
+        <textarea id="condicoes" rows="3"></textarea>
+        <h3>Poderes</h3>
+        <textarea id="poderes" rows="4"></textarea>
+        <h3>Especializações</h3>
+        <textarea id="especializacoes" rows="3"></textarea>
+
+        <button onclick="salvarFicha()">Salvar Ficha</button>
+
+        <h3>🎲 Rolador de Dados</h3>
+        <label for="bonus">Bônus da rolagem</label>
+        <input type="number" id="bonus" value="0">
+        <button onclick="rolarDados()">Rolar 2d6</button>
+        <div id="resultadoRolagem">Resultado: -</div>
+      </section>
+    </div>
+
+    <h2 id="repertorio">Repertório de Fichas</h2>
+    <div class="repertorio" id="listaFichas"></div>
+  </main>
+
+  <footer class="container">
+    <small><a href="#">Manual ICONS Assemble</a> • <a href="#">Redbox Editora</a></small>
+  </footer>
+
+  <script>
+    let fichaAtualId = null;
+
+    function mostrarPreview(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          document.getElementById("avatarPreview").src = e.target.result;
+          document.querySelector("#avatar").dataset.url = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function getFichaFromForm() {
+      return {
+        id: fichaAtualId || Date.now(),
+        nome: document.getElementById("nome").value,
+        jogador: document.getElementById("jogador").value,
+        origem: document.getElementById("origem").value,
+        energia: document.getElementById("energia").value,
+        determinacao: document.getElementById("determinacao").value,
+        atributos: {
+          proeza: document.getElementById("proeza").value,
+          coordenacao: document.getElementById("coordenacao").value,
+          intelecto: document.getElementById("intelecto").value,
+          vigor: document.getElementById("vigor").value,
+          atencao: document.getElementById("atencao").value,
+          vontade: document.getElementById("vontade").value
+        },
+        condicoes: document.getElementById("condicoes").value,
+        poderes: document.getElementById("poderes").value,
+        especializacoes: document.getElementById("especializacoes").value,
+        avatar: document.querySelector("#avatar").dataset.url || ""
+      };
+    }
+
+    function salvarFicha() {
+      const ficha = getFichaFromForm();
+      let fichas = JSON.parse(localStorage.getItem("fichas") || "[]");
+      const index = fichas.findIndex(f => f.id === ficha.id);
+      if (index >= 0) fichas[index] = ficha;
+      else fichas.push(ficha);
+      localStorage.setItem("fichas", JSON.stringify(fichas));
+      fichaAtualId = ficha.id;
+      mostrarFichas();
+      alert("Ficha salva!");
+    }
+
+    function mostrarFichas() {
+      let fichas = JSON.parse(localStorage.getItem("fichas") || "[]");
+      const lista = document.getElementById("listaFichas");
+      lista.innerHTML = "";
+      fichas.forEach(f => {
+        const div = document.createElement("div");
+        div.className = "carta";
+        div.innerHTML = `
+          <img src="${f.avatar || 'https://via.placeholder.com/150x120?text=Avatar'}">
+          <strong>${f.nome || "Sem nome"}</strong>
+          <div>
+            <button onclick="abrirFicha(${f.id})">Abrir</button>
+            <button onclick="excluirFicha(${f.id})">Excluir</button>
+          </div>
+        `;
+        lista.appendChild(div);
+      });
+    }
+
+    function abrirFicha(id) {
+      let fichas = JSON.parse(localStorage.getItem("fichas") || "[]");
+      const ficha = fichas.find(f => f.id === id);
+      if (!ficha) return;
+      fichaAtualId = ficha.id;
+      document.getElementById("nome").value = ficha.nome;
+      document.getElementById("jogador").value = ficha.jogador;
+      document.getElementById("origem").value = ficha.origem;
+      document.getElementById("energia").value = ficha.energia;
+      document.getElementById("determinacao").value = ficha.determinacao;
+      document.getElementById("proeza").value = ficha.atributos.proeza;
+      document.getElementById("coordenacao").value = ficha.atributos.coordenacao;
+      document.getElementById("intelecto").value = ficha.atributos.intelecto;
+      document.getElementById("vigor").value = ficha.atributos.vigor;
+      document.getElementById("atencao").value = ficha.atributos.atencao;
+      document.getElementById("vontade").value = ficha.atributos.vontade;
+      document.getElementById("condicoes").value = ficha.condicoes;
+      document.getElementById("poderes").value = ficha.poderes;
+      document.getElementById("especializacoes").value = ficha.especializacoes;
+      document.querySelector("#avatar").dataset.url = ficha.avatar;
+      document.getElementById("avatarPreview").src = ficha.avatar || "https://via.placeholder.com/200x200?text=Avatar";
+    }
+
+    function excluirFicha(id) {
+      let fichas = JSON.parse(localStorage.getItem("fichas") || "[]");
+      fichas = fichas.filter(f => f.id !== id);
+      localStorage.setItem("fichas", JSON.stringify(fichas));
+      if (fichaAtualId === id) novaFicha();
+      mostrarFichas();
+    }
+
+    function novaFicha() {
+      fichaAtualId = null;
+      document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+      document.querySelector("#avatar").dataset.url = "";
+      document.getElementById("avatarPreview").src = "https://via.placeholder.com/200x200?text=Avatar";
+      document.getElementById("resultadoRolagem").textContent = "Resultado: -";
+    }
+
+    function rolarDados() {
+      const bonus = parseInt(document.getElementById("bonus").value) || 0;
+      const resultadoDiv = document.getElementById("resultadoRolagem");
+
+      let i = 0;
+      const animacao = setInterval(() => {
+        const fake = Math.floor(Math.random() * 11) + 2;
+        resultadoDiv.textContent = "Rolando... " + fake;
+        i++;
+        if (i > 5) {
+          clearInterval(animacao);
+          const d1 = Math.floor(Math.random() * 6) + 1;
+          const d2 = Math.floor(Math.random() * 6) + 1;
+          const total = d1 + d2 + bonus;
+          resultadoDiv.textContent = `🎲 Rolagem: (${d1} + ${d2}) + ${bonus} = ${total}`;
+        }
+      }, 150);
+    }
+
+    window.onload = mostrarFichas;
+  </script>
+</body>
+</html>
