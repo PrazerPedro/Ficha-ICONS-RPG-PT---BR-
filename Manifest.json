@@ -1,0 +1,10 @@
+{
+  "id": "ICONS (Compra de Pontos)",
+  "name": "Ficha ICONS",
+  "version": "1.0.0",
+  "author": "PrazerPedro",
+  "description": "Ficha de personagem ICONS integrada ao Owlbear Rodeo",
+  "icon": "icon.png",
+  "entry": "ICONS (Compra de Pontos).html",
+  "permissions": []
+}
